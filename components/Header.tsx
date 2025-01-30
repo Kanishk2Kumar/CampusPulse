@@ -70,20 +70,20 @@ const Header = () => {
         </Link>
         <ul className="flex flex-row items-center gap-4">
           <li className="relative group">
-            <button className="text-base cursor-pointer capitalize text-gray-500">
+            <button className="text-base cursor-pointer capitalize text-gray-400">
               Resources
             </button>
-            <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
+            <ul className="absolute hidden group-hover:block min-w-52 z-[100] border border-gray-500 p-2 rounded shadow-lg">
               <li className="hover:underline">
                 <Link href="/SearchResources">Search Resources</Link>
               </li>
               <li className="hover:underline mt-2">
-                <Link href="/Emergency-Resources">Emergency Resources</Link>
+                <Link href="/Emergency-Resources">Emergency-Resources</Link>
               </li>
             </ul>
           </li>
           <li className="relative group">
-            <button className="text-base cursor-pointer capitalize text-gray-500">
+            <button className="text-base cursor-pointer capitalize text-gray-400">
               Find TeamMates
             </button>
             <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
@@ -96,7 +96,7 @@ const Header = () => {
             </ul>
           </li>
           <li className="relative group">
-            <button className="text-base cursor-pointer capitalize text-gray-500">
+            <button className="text-base cursor-pointer capitalize text-gray-400">
               Lost & Found
             </button>
             <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
@@ -109,7 +109,7 @@ const Header = () => {
             </ul>
           </li>
           <li className="relative group">
-            <button className="text-base cursor-pointer capitalize text-gray-500">
+            <button className="text-base cursor-pointer capitalize text-gray-400">
               Club Management
             </button>
             <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
