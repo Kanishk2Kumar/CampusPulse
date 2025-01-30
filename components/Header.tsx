@@ -4,14 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ModeToggle } from "./ModeToggle";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
 import { Button } from "./ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, useEffect } from "react";
@@ -47,7 +39,7 @@ const Header = () => {
       try {
         const { data, error } = await supabase
           .from("alerts") // Replace with your table name
-          .select("*")
+          .select("*");
 
         if (error) throw error;
 
@@ -77,112 +69,58 @@ const Header = () => {
           <Image src="/icons/logo.png" alt="logo" width={60} height={60} />
         </Link>
         <ul className="flex flex-row items-center gap-4">
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-base cursor-pointer capitalize text-gray-400">
-                  Resources
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="min-w-48">
-                  <ul className="p-4 rounded shadow-lg">
-                    <li className="hover:underline">
-                      <Link href="/SearchResources" legacyBehavior passHref>
-                        <NavigationMenuLink>Search Resources</NavigationMenuLink>
-                      </Link>
-                    </li>
-                    <li className="hover:underline mt-2">
-                      <Link href="/Emergency-Resources" legacyBehavior passHref>
-                        <NavigationMenuLink>
-                          Emergency Resources
-                        </NavigationMenuLink>
-                      </Link>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-base cursor-pointer capitalize text-gray-400">
-                  Find TeamMates
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="min-w-48">
-                  <ul className="p-4 rounded shadow-lg">
-                    <li className="hover:underline">
-                      <Link
-                        href="/lostFound/create-campaigns"
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink>Hackathon Groups</NavigationMenuLink>
-                      </Link>
-                    </li>
-                    <li className="hover:underline mt-2">
-                      <Link
-                        href="/lostFound/All-Campaigns"
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink>Find Flatmates</NavigationMenuLink>
-                      </Link>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-base cursor-pointer capitalize text-gray-400">
-                  Lost & Found
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="min-w-48">
-                  <ul className="p-4 rounded shadow-lg">
-                    <li className="hover:underline">
-                      <Link
-                        href="/lostFound/create-campaigns"
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink>Create Request</NavigationMenuLink>
-                      </Link>
-                    </li>
-                    <li className="hover:underline mt-2">
-                      <Link
-                        href="/lostFound/All-Campaigns"
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink>All Requests</NavigationMenuLink>
-                      </Link>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuTrigger className="text-base cursor-pointer capitalize text-gray-400">
-                  Club Management
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="min-w-48">
-                  <ul className="p-4 rounded shadow-lg">
-                    <li className="hover:underline">
-                      <Link
-                        href="/clubs/create-event"
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink>Create Event</NavigationMenuLink>
-                      </Link>
-                    </li>
-                    <li className="hover:underline mt-2">
-                      <Link
-                        href="/clubs/all-events"
-                        legacyBehavior
-                        passHref
-                      >
-                        <NavigationMenuLink>All Events</NavigationMenuLink>
-                      </Link>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          <li className="relative group">
+            <button className="text-base cursor-pointer capitalize text-gray-500">
+              Resources
+            </button>
+            <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
+              <li className="hover:underline">
+                <Link href="/SearchResources">Search Resources</Link>
+              </li>
+              <li className="hover:underline mt-2">
+                <Link href="/Emergency-Resources">Emergency Resources</Link>
+              </li>
+            </ul>
+          </li>
+          <li className="relative group">
+            <button className="text-base cursor-pointer capitalize text-gray-500">
+              Find TeamMates
+            </button>
+            <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
+              <li className="hover:underline">
+                <Link href="/lostFound/create-campaigns">Hackathon Groups</Link>
+              </li>
+              <li className="hover:underline mt-2">
+                <Link href="/lostFound/All-Campaigns">Find Flatmates</Link>
+              </li>
+            </ul>
+          </li>
+          <li className="relative group">
+            <button className="text-base cursor-pointer capitalize text-gray-500">
+              Lost & Found
+            </button>
+            <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
+              <li className="hover:underline">
+                <Link href="/lostFound/create-campaigns">Create Request</Link>
+              </li>
+              <li className="hover:underline mt-2">
+                <Link href="/lostFound/All-Campaigns">All Requests</Link>
+              </li>
+            </ul>
+          </li>
+          <li className="relative group">
+            <button className="text-base cursor-pointer capitalize text-gray-500">
+              Club Management
+            </button>
+            <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
+              <li className="hover:underline">
+                <Link href="/clubs/create-event">Create Event</Link>
+              </li>
+              <li className="hover:underline mt-2">
+                <Link href="/clubs/all-events">All Events</Link>
+              </li>
+            </ul>
+          </li>
           <li>
             <ModeToggle />
           </li>
@@ -190,10 +128,7 @@ const Header = () => {
             {isSignedIn ? (
               <Link href="/profile">
                 <Avatar className="cursor-pointer">
-                  <AvatarImage
-                    src="/path-to-user-avatar.jpg"
-                    alt="User Avatar"
-                  />
+                  <AvatarImage src="/path-to-user-avatar.jpg" alt="User Avatar" />
                   <AvatarFallback>{getInitial()}</AvatarFallback>
                 </Avatar>
               </Link>
@@ -207,11 +142,7 @@ const Header = () => {
       </header>
       {/* Display all alerts */}
       {alerts.map((alert) => (
-        <AlertBar
-          key={alert.id}
-          title={alert.title}
-          message={alert.message}
-        />
+        <AlertBar key={alert.id} title={alert.title} message={alert.message} />
       ))}
     </div>
   );

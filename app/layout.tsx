@@ -22,9 +22,9 @@ const bebasNeue = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Swasta Setu",
+  title: "Campus Pulse",
   description:
-    "Swasta Setu : Shardul ke swasth ki naiya",
+    "Campus Pulse : Connect. Collaborate. Celebrate.",
 };
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
