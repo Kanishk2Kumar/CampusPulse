@@ -21,9 +21,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     // Function to fetch user details from the `user` table based on user ID
     const getUserDetails = async (userId: string) => {
       const { data, error } = await supabase
-        .from("user") // Replace with your actual table name
+        .from("users") // Replace with your actual table name
         .select("*")
-        .eq("userId", userId)
+        .eq("userid", userId)
         .single(); // Assuming userId is unique, so we expect a single row
 
       if (error) {
