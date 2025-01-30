@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
 
         <div className="mt-10 md:mt-0 md:w-1/2 relative pl-10">
           <img
-            src="/images/HeroImage.png"
+            src="/images/home main.png"
             alt="Hero Image"
             className="hidden md:block animate-slide-in-right"
           />
