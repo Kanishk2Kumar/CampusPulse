@@ -21,72 +21,25 @@ const SignUp = (props: React.ComponentPropsWithoutRef<"div">) => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
-  const [city, setCity] = useState<string | null>(null); // Store city name instead of coordinates
+  const [gender, setGender] = useState<string>("");
+  const [department, setDepartment] = useState<string>("");
+  const [skills, setSkills] = useState<string>("");
+  const [hobbies, setHobbies] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Reverse geocode coordinates to get the city name
-  const reverseGeocode = async (latitude: number, longitude: number) => {
-    try {
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
-      );
-      const data = await response.json();
-
-      if (data.address) {
-        return data.address.city || data.address.town || data.address.village || "Unknown City";
-      } else {
-        throw new Error("City not found in response.");
-      }
-    } catch (err) {
-      console.error("Error reverse geocoding:", err);
-      throw err;
-    }
-  };
-
-  const fetchLocation = async () => {
-    if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser.");
-      return;
-    }
-
-    setLoading(true);
-    setError(null);
-
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-
-        try {
-          // Reverse geocode to get the city name
-          const cityName = await reverseGeocode(latitude, longitude);
-          setCity(cityName); // Set the city name in the state
-        } catch (err) {
-          setError("Unable to fetch city name. Please try again.");
-        } finally {
-          setLoading(false);
-        }
-      },
-      (error) => {
-        setError("Unable to fetch location. Please enable location services.");
-        setLoading(false);
-      }
-    );
-  };
-
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validate phone number length
-    if (phoneNumber.length !== 10 || !/^[\d]+$/.test(phoneNumber)) {
+    if (phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber)) {
       setError("Phone number must be exactly 10 digits.");
       return;
     }
 
-    if (!city) {
-      setError("Location is required. Please enable location services.");
+    if (!gender || !department || !skills || !hobbies) {
+      setError("All fields are required.");
       return;
     }
 
@@ -111,13 +64,18 @@ const SignUp = (props: React.ComponentPropsWithoutRef<"div">) => {
         },
       });
 
-      const { error: insertError } = await supabase.from("user").insert([
+      // Insert user data with 'userid' instead of 'userId'
+      const { error: insertError } = await supabase.from("users").insert([
         {
-          userId: user?.id,
-          userName: username,
+          userid: user?.id, // Fixed key from userId to userid
+          name: username,
           email: user?.email,
-          phoneNumber: phoneNumber,
-          location: city, // Store the city name
+          phonenumber: phoneNumber,
+          gender,
+          usertype: "student",
+          department,
+          skills,
+          hobbies,
         },
       ]);
 
@@ -128,7 +86,7 @@ const SignUp = (props: React.ComponentPropsWithoutRef<"div">) => {
       setSuccessMessage("Sign up successful! Redirecting...");
       setTimeout(() => {
         router.push("/");
-      }, 1500); // Redirect after 1.5 seconds
+      }, 1500);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -191,14 +149,55 @@ const SignUp = (props: React.ComponentPropsWithoutRef<"div">) => {
                     required
                   />
                 </div>
-                <Button
-                  type="button"
-                  className="w-full bg-green-500 hover:bg-green-700"
-                  onClick={fetchLocation}
-                  disabled={loading || city !== null}
-                >
-                  {city ? `Location: ${city}` : "Get Location"}
-                </Button>
+                <div className="grid gap-2">
+                  <Label htmlFor="gender">Gender</Label>
+                  <select
+                    id="gender"
+                    value={gender}
+                    onChange={(e) => setGender(e.target.value)}
+                    className="w-full p-2 border border-gray-300 rounded-md"
+                    required
+                  >
+                    <option value="" disabled>
+                      Select Gender
+                    </option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="department">Department</Label>
+                  <Input
+                    id="department"
+                    type="text"
+                    placeholder="Department"
+                    value={department}
+                    onChange={(e) => setDepartment(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="skills">Skills</Label>
+                  <Input
+                    id="skills"
+                    type="text"
+                    placeholder="Skills"
+                    value={skills}
+                    onChange={(e) => setSkills(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="hobbies">Hobbies</Label>
+                  <Input
+                    id="hobbies"
+                    type="text"
+                    placeholder="Hobbies"
+                    value={hobbies}
+                    onChange={(e) => setHobbies(e.target.value)}
+                    required
+                  />
+                </div>
                 <Button
                   type="submit"
                   className="w-full bg-green-500 hover:bg-green-700"
