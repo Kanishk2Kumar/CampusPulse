@@ -1,75 +1,65 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { supabase } from "@/utils/supabase/client"; // Import Supabase client
 
-const AllCampaigns: React.FC = () => {
+const LostAndFound: React.FC = () => {
   const [search, setSearch] = useState("");
-  const [campaigns, setCampaigns] = useState<any[]>([]); // State to store campaigns
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
 
-  // Fetch campaigns from Supabase
-  useEffect(() => {
-    const fetchCampaigns = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("campaigns") // Use the correct table name
-          .select("*")
-          .eq("status", "approved"); // Filter by approved campaigns
+  // Static data for lost and found items
+  const staticItems = [
+    {
+      id: 1,
+      title: "Lost Wallet",
+      description: "A black leather wallet found near the library.",
+      imageLink: "/images/wallet.jpg",
+      locationFound: "Library Entrance",
+      foundDate: "2023-10-15",
+    },
+    {
+      id: 2,
+      title: "Water Bottle",
+      description: "A blue Hydro Flask found in the cafeteria.",
+      imageLink: "/images/bottle.jpg",
+      locationFound: "Cafeteria",
+      foundDate: "2023-10-14",
+    },
+    {
+      id: 3,
+      title: "Keys",
+      description: "A set of keys with a keychain found in the parking lot.",
+      imageLink: "/images/keys.jpg",
+      locationFound: "Parking Lot",
+      foundDate: "2023-10-13",
+    },
+    {
+      id: 4,
+      title: "Notebook",
+      description: "A spiral-bound notebook found in Lecture Hall 3.",
+      imageLink: "/images/notebook.jpg",
+      locationFound: "Lecture Hall 3",
+      foundDate: "2023-10-12",
+    },
+  ];
 
-        if (error) {
-          throw new Error(error.message);
-        }
-
-        setCampaigns(data || []); // Set campaigns data
-      } catch (error: any) {
-        setError(error.message); // Set error message
-      } finally {
-        setLoading(false); // Set loading to false
-      }
-    };
-
-    fetchCampaigns();
-  }, []);
-
-  // Filter campaigns based on search input
-  const filteredCampaigns = campaigns.filter((campaign) =>
-    campaign.title.toLowerCase().includes(search.toLowerCase())
+  // Filter items based on search input
+  const filteredItems = staticItems.filter((item) =>
+    item.title.toLowerCase().includes(search.toLowerCase())
   );
-
-  // Loading state
-  if (loading) {
-    return (
-      <div className="p-8 lg:pl-24 lg:pr-24">
-        <div className="text-center">Loading campaigns...</div>
-      </div>
-    );
-  }
-
-  // Error state
-  if (error) {
-    return (
-      <div className="p-8 lg:pl-24 lg:pr-24">
-        <div className="text-center text-red-500">Error: {error}</div>
-      </div>
-    );
-  }
 
   return (
     <div className="p-8 lg:pl-24 lg:pr-24">
       {/* Search Bar */}
       <div className="relative mb-8 lg:pl-48 lg:mr-48">
         <label className="relative block">
-          <span className="sr-only">Search campaigns</span>
+          <span className="sr-only">Search lost and found items</span>
           <Input
             type="text"
-            placeholder="Search campaigns..."
+            placeholder="Search lost and found items..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full p-3 pr-12 border rounded-full"
@@ -86,60 +76,57 @@ const AllCampaigns: React.FC = () => {
         </label>
       </div>
 
-      {/* Campaign Grid */}
+      {/* Lost and Found Items Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {filteredCampaigns.map((campaign) => {
-          console.log("Campaign coverImg:", campaign.coverImg); // Debugging: Log image URLs
-          return (
-            <Card
-              key={campaign.id} // Use campaign.id from Supabase
-              className="rounded-lg border border-gray-500 shadow-lg hover:scale-105 transition-transform"
-            >
-              {/* Campaign Image */}
-              <div className="w-full h-[200px] overflow-hidden rounded-t-lg">
-                <Image
-                  src={campaign.imageLink || "/images/default-campaign.jpg"} // Fallback image
-                  alt={campaign.title}
-                  width={400}
-                  height={200}
-                  className="object-cover w-full h-full"
-                  unoptimized // Add this if using external URLs
-                />
-              </div>
+        {filteredItems.map((item) => (
+          <Card
+            key={item.id}
+            className="rounded-lg border border-gray-500 shadow-lg hover:scale-105 transition-transform"
+          >
+            {/* Item Image */}
+            <div className="w-full h-[200px] overflow-hidden rounded-t-lg">
+              <Image
+                src={item.imageLink || "/images/default-item.jpg"} // Fallback image
+                alt={item.title}
+                width={400}
+                height={200}
+                className="object-cover w-full h-full"
+                unoptimized // Add this if using external URLs
+              />
+            </div>
 
-              {/* Campaign Details */}
-              <CardContent className="p-4">
-                <CardHeader className="p-0 mb-2">
-                  <CardTitle className="text-lg font-bold text-blue-500">
-                    {campaign.title}
-                  </CardTitle>
-                </CardHeader>
-                <p className="text-gray-700 text-sm line-clamp-2">
-                  {campaign.description}
-                </p>
-                <div className="flex justify-between items-center mt-4">
-                  {/* Raised Amount */}
-                  <div className="text-sm font-semibold">
-                    Raised: {campaign.currentAmount}{" "}
-                    <span className="text-gray-600">
-                      of {campaign.targetAmount}
-                    </span>
-                  </div>
-
-                  {/* Donate Button */}
-                  <Link href={`/campaigns/${campaign.id}/show`} passHref>
-                    <Button size="sm" className="bg-blue-500 hover:bg-blue-700">
-                      Donate
-                    </Button>
-                  </Link>
+            {/* Item Details */}
+            <CardContent className="p-4">
+              <CardHeader className="p-0 mb-2">
+                <CardTitle className="text-lg font-bold text-blue-500">
+                  {item.title}
+                </CardTitle>
+              </CardHeader>
+              <p className="text-gray-700 text-sm line-clamp-2">
+                {item.description}
+              </p>
+              <p className="text-gray-700 text-sm mt-2">
+                <strong>Location Found:</strong> {item.locationFound}
+              </p>
+              <div className="flex justify-between items-center mt-4">
+                {/* Found Date */}
+                <div className="text-sm font-semibold">
+                  Found: {new Date(item.foundDate).toLocaleDateString()}
                 </div>
-              </CardContent>
-            </Card>
-          );
-        })}
+
+                {/* Claim Button */}
+                <Link href={`/lost-and-found/${item.id}/claim`} passHref>
+                  <Button size="sm" className="bg-blue-500 hover:bg-blue-700">
+                    Claim
+                  </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );
 };
 
-export default AllCampaigns;
+export default LostAndFound;
