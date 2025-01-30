@@ -70,7 +70,7 @@ const CreatePost = () => {
     if (!isDoctor) {
       // Add a 1.5-second delay before redirecting
       const redirectTimer = setTimeout(() => {
-        router.push("/doctors/authenticate"); // Redirect non-doctors to the authentication page
+        router.push("/clubs/authenticate"); // Redirect non-doctors to the authentication page
       }, 1500);
 
       // Cleanup the timer to avoid memory leaks

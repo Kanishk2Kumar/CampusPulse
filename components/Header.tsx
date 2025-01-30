@@ -101,10 +101,10 @@ const Header = () => {
             </button>
             <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
               <li className="hover:underline">
-                <Link href="/lostFound/create-campaigns">Create Request</Link>
+                <Link href="/lostFound/create-request">Create Request</Link>
               </li>
               <li className="hover:underline mt-2">
-                <Link href="/lostFound/All-Campaigns">All Requests</Link>
+                <Link href="/lostFound/all-request">All Requests</Link>
               </li>
             </ul>
           </li>
