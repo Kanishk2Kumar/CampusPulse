@@ -39,7 +39,7 @@ const SignIn = (props: React.ComponentPropsWithoutRef<"div">) => {
       }
 
       const { data: userData, error: userError } = await supabase
-        .from("user")
+        .from("users")
         .select("userType")
         .eq("userId", user?.id)
         .single();
