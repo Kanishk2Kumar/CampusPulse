@@ -70,11 +70,11 @@ body {
   }
   
   ::-webkit-scrollbar-thumb {
-    background-color: #28c862; /* Scroll thumb color */
+    background-color: #2563EB; /* Scroll thumb color */
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #16A34A; /* Thumb hover effect */
+    background-color: #1748b4; /* Thumb hover effect */
   }
 
   .dark {

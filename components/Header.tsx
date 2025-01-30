@@ -71,14 +71,14 @@ const Header = () => {
         <ul className="flex flex-row items-center gap-4">
           <li className="relative group">
             <button className="text-base cursor-pointer capitalize text-gray-400">
-              Resources
+              Help Section
             </button>
             <ul className="absolute hidden group-hover:block min-w-52 z-[100] border border-gray-500 p-2 rounded shadow-lg">
               <li className="hover:underline">
-                <Link href="/SearchResources">Search Resources</Link>
+                <Link href="/help/create-request">Create Request</Link>
               </li>
               <li className="hover:underline mt-2">
-                <Link href="/Emergency-Resources">Emergency-Resources</Link>
+                <Link href="/help/all-request">Open Requests</Link>
               </li>
             </ul>
           </li>
