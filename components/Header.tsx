@@ -88,10 +88,10 @@ const Header = () => {
             </button>
             <ul className="absolute hidden group-hover:block min-w-48 z-[100] border border-gray-500 p-4 rounded shadow-lg">
               <li className="hover:underline">
-                <Link href="/lostFound/create-campaigns">Hackathon Groups</Link>
+                <Link href="/teamates/hackathon-groups">Hackathon Groups</Link>
               </li>
               <li className="hover:underline mt-2">
-                <Link href="/lostFound/All-Campaigns">Find Flatmates</Link>
+                <Link href="/teamates/find-flatmates">Find Flatmates</Link>
               </li>
             </ul>
           </li>
