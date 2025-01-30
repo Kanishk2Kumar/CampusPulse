@@ -1,63 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { supabase } from "@/utils/supabase/client"; // Import Supabase client
 
 const AllEvents: React.FC = () => {
   const [search, setSearch] = useState("");
+  const [events, setEvents] = useState<any[]>([]); // State to store fetched events
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState<string | null>(null); // Error state
 
-  // Static data for club events
-  const staticEvents = [
-    {
-      id: 1,
-      title: "Tech Talk: AI in 2024",
-      description:
-        "Join us for an insightful session on the future of AI and its impact on industries.",
-      imageLink: "/images/tech-talk.jpg",
-      clubName: "Tech Club",
-      startDate: "2023-11-10",
-      endDate: "2023-11-10",
-    },
-    {
-      id: 2,
-      title: "Music Festival",
-      description:
-        "A night of live performances by talented artists from our college.",
-      imageLink: "/images/music-festival.jpg",
-      clubName: "Music Club",
-      startDate: "2023-11-15",
-      endDate: "2023-11-16",
-    },
-    {
-      id: 3,
-      title: "Art Exhibition",
-      description:
-        "Explore stunning artworks created by students and professional artists.",
-      imageLink: "/images/art-exhibition.jpg",
-      clubName: "Art Club",
-      startDate: "2023-11-20",
-      endDate: "2023-11-22",
-    },
-    {
-      id: 4,
-      title: "Sports Day",
-      description:
-        "A day full of fun sports activities and competitions for everyone.",
-      imageLink: "/images/sports-day.jpg",
-      clubName: "Sports Club",
-      startDate: "2023-11-25",
-      endDate: "2023-11-25",
-    },
-  ];
+  // Fetch events from Supabase
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("clubs") // Replace with your table name
+          .select("*")
+          .order("startDate", { ascending: true }); // Sort by start date
+
+        if (error) {
+          throw error;
+        }
+
+        setEvents(data || []); // Set fetched data
+      } catch (error: any) {
+        setError(error.message); // Set error message
+      } finally {
+        setLoading(false); // Set loading to false
+      }
+    };
+
+    fetchEvents();
+  }, []);
 
   // Filter events based on search input
-  const filteredEvents = staticEvents.filter((event) =>
+  const filteredEvents = events.filter((event) =>
     event.title.toLowerCase().includes(search.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-lg">Loading events...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-lg text-red-500">Error: {error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8 lg:pl-24 lg:pr-24">
