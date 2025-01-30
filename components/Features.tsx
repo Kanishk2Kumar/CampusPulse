@@ -18,39 +18,39 @@ export function Features() {
 }
 export const projects = [
   {
-    title: "Interactive Dashboards",
+    title: " Hackathons & Collaboration",
     description:
-      "A technology company that builds economic infrastructure for the internet.",
-    link: "/dashboard",
+      "Find like-minded peers to brainstorm, innovate, and build something extraordinary.",
+    link: "/teamates/hackathon-groups",
   },
   {
-    title: "Precations & Symptoms",
+    title: "Find Flatmates & Housing Solutions",
     description:
-      "A streaming service that offers a wide variety of award-winning TV shows, movies, anime, documentaries, and more on thousands of internet-connected devices.",
-    link: "https://netflix.com",
+      "Looking for a place to stay or someone to share your apartment? Use our flatmate matching system to find the perfect fit based on lifestyle preferences, budgets, and more.",
+    link: "/teamates/find-flatmates",
   },
   {
-    title: "Predictions",
+    title: " Seamless Communication",
     description:
-      "A multinational technology company that specializes in Internet-related services and products.",
+      "Engage in real-time discussions with your peers, share ideas, and collaborate on projects.",
     link: "/predictions",
   },
   {
-    title: "Self Assesment Tools",
+    title: "Help & Earn Rewards",
     description:
-      "A technology company that focuses on building products that advance Facebook's mission of bringing the world closer together.",
+      " Stuck on a problem? Ask for help from the Campus Pulse community and get solutions from fellow students.",
     link: "/self-diagnosis",
   },
   {
-    title: "Emergency Resources",
+    title: "College Events & Activities",
     description:
-      "A multinational technology company focusing on e-commerce, cloud computing, digital streaming, and artificial intelligence.",
-    link: "/Emergency-Resources",
+      " Stay updated on all the latest college events, from workshops and seminars to cultural fests and networking meetups.",
+    link: "/clubs/all-events",
   },
   {
-    title: "Social Campaigns",
+    title: "  Lost & Found",
     description:
-      "A multinational technology company that develops, manufactures, licenses, supports, and sells computer software, consumer electronics, personal computers, and related services.",
-    link: "social-campaigns",
+      "Misplaced your keys, laptop, or wallet? Report it on Campus Pulse and let the community help you find it.",
+    link: "/lostFound/All-Campaigns",
   },
 ];
