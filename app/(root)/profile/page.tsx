@@ -50,6 +50,14 @@ const Profile = () => {
     router.push("/sign-in");
   };
 
+  const getBadges = () => {
+    const badges = [];
+    if (helpedCount >= 7) badges.push("/images/Advanced.png");
+    if (helpedCount >= 5) badges.push("/images/Intermediate.png");
+    if (helpedCount >= 3) badges.push("/images/Begineer.png");
+    return badges;
+  };
+
   if (!user) {
     return (
       <div className="flex items-center justify-center min-h-[80vh]">
@@ -77,32 +85,47 @@ const Profile = () => {
             {userDetails?.email}
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 grid grid-cols-2 gap-4">
           <div>
             <h3 className="text-lg font-semibold">Phone Number:</h3>
-            <p className="text-gray-700">{userDetails?.phonenumber}</p>
+            <p>{userDetails?.phonenumber}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Gender:</h3>
-            <p className="text-gray-700">{userDetails?.gender}</p>
+            <p>{userDetails?.gender}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Department:</h3>
-            <p className="text-gray-700">{userDetails?.department}</p>
+            <p>{userDetails?.department}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Skills:</h3>
-            <p className="text-gray-700">{userDetails?.skills}</p>
+            <p>{userDetails?.skills}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Hobbies:</h3>
-            <p className="text-gray-700">{userDetails?.hobbies || "None"}</p>
+            <p>{userDetails?.hobbies || "None"}</p>
           </div>
           <div>
             <h3 className="text-lg font-semibold">Users Helped:</h3>
-            <p className="text-gray-700">{helpedCount}</p>
+            <p>{helpedCount}</p>
           </div>
-          <div className="space-y-2">
+          <div>
+            <h3 className="text-lg font-semibold">Badge:</h3>
+            {getBadges().length > 0 ? (
+              getBadges().map((badge, index) => (
+                <img
+                  key={index}
+                  src={badge}
+                  alt="Badge"
+                  className="w-20 h-20 inline-block mr-2"
+                />
+              ))
+            ) : (
+              <p className="text-gray-500">No Badge</p>
+            )}
+          </div>
+          <div className="col-span-2 space-y-2">
             <Button onClick={handleSignOut} className="w-full">
               Sign Out
             </Button>
