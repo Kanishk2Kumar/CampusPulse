@@ -15,7 +15,12 @@ const AllRequests: React.FC = () => {
 
   useEffect(() => {
     const fetchItems = async () => {
-      const { data, error } = await supabase.from("lostFound").select("*");
+      // Fetch only items with status "pending"
+      const { data, error } = await supabase
+        .from("lostFound")
+        .select("*")
+        .eq("status", "pending"); // Filter by status
+
       if (error) console.error("Error fetching lost and found items:", error);
       else setItems(data || []);
       setLoading(false);

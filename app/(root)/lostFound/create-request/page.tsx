@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/client";
-import { useAuth } from "@/context/UserContext";
+import { useAuth } from "@/context/UserContext"; // Import the UserContext
 
 const CreatePost = () => {
   const [formData, setFormData] = useState({
@@ -20,19 +20,20 @@ const CreatePost = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const router = useRouter();
-  const { userDetails } = useAuth();
+  const { userDetails } = useAuth(); // Fetch user details from the context
+
+  // Ensure userDetails and userId are available
+  const userId = userDetails?.userId || "";
 
   useEffect(() => {
-    if (userDetails) {
-      setUserId(userDetails.userId || "");
-      setUsername(userDetails.username || "");
+    // If userDetails is not available, you might want to handle a redirect or error message.
+    if (!userId) {
+      setErrorMessage("You must be logged in to create a post.");
     }
-  }, [userDetails]);
+  }, [userId]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
@@ -75,9 +76,9 @@ const CreatePost = () => {
         imageUrl = await uploadImage(imageFile);
       }
 
-      const { error: insertError } = await supabase.from("lostFound").insert([
+      const { error: insertError } = await supabase.from("lostFound").insert([ 
         {
-          userid: userId,
+          userid: userId, // Use userId from the UserContext
           title: formData.title,
           description: formData.description,
           foundAt: formData.foundAt,
@@ -103,30 +104,70 @@ const CreatePost = () => {
       <div className="relative flex items-center justify-center min-h-screen p-4">
         <Card className="max-w-2xl w-full bg-opacity-90 rounded-lg p-2 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-center text-3xl">Create a Lost & Found Post</CardTitle>
+            <CardTitle className="text-center text-3xl">
+              Create a Lost & Found Post
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Label htmlFor="title">Title *</Label>
-                <Input id="title" name="title" type="text" placeholder="Enter a title" value={formData.title} onChange={handleInputChange} required />
+                <Input
+                  id="title"
+                  name="title"
+                  type="text"
+                  placeholder="Enter a title"
+                  value={formData.title}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div>
                 <Label htmlFor="description">Description *</Label>
-                <Textarea id="description" name="description" placeholder="Describe the item..." value={formData.description} onChange={handleInputChange} rows={4} required />
+                <Textarea
+                  id="description"
+                  name="description"
+                  placeholder="Describe the item..."
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  rows={4}
+                  required
+                />
               </div>
               <div>
                 <Label htmlFor="foundAt">Found Location *</Label>
-                <Input id="foundAt" name="foundAt" type="text" placeholder="Enter location" value={formData.foundAt} onChange={handleInputChange} required />
+                <Input
+                  id="foundAt"
+                  name="foundAt"
+                  type="text"
+                  placeholder="Enter location"
+                  value={formData.foundAt}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div>
                 <Label htmlFor="imageLink">Image (Optional)</Label>
-                <Input id="imageLink" name="imageLink" type="file" onChange={handleFileChange} accept="image/*" />
+                <Input
+                  id="imageLink"
+                  name="imageLink"
+                  type="file"
+                  onChange={handleFileChange}
+                  accept="image/*"
+                />
               </div>
-              {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
-              {successMessage && <p className="text-blue-500 text-center">{successMessage}</p>}
+              {errorMessage && (
+                <p className="text-red-500 text-center">{errorMessage}</p>
+              )}
+              {successMessage && (
+                <p className="text-blue-500 text-center">{successMessage}</p>
+              )}
               <div className="flex justify-center">
-                <Button type="submit" className="bg-blue-500 text-white px-6 py-3" disabled={loading}>
+                <Button
+                  type="submit"
+                  className="bg-blue-500 text-white px-6 py-3"
+                  disabled={loading}
+                >
                   {loading ? "Submitting..." : "Create Post"}
                 </Button>
               </div>
