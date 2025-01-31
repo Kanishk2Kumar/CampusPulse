@@ -91,7 +91,10 @@ const Header = () => {
                 <Link href="/teamates/hackathon-groups">Hackathon Groups</Link>
               </li>
               <li className="hover:underline mt-2">
-                <Link href="/teamates/find-flatmates">Find Flatmates</Link>
+                <Link href="/teamates/search-flatmates">Search Flatmates</Link>
+              </li>
+              <li className="hover:underline mt-2">
+                <Link href="/teamates/find-flats">Find Flats</Link>
               </li>
             </ul>
           </li>

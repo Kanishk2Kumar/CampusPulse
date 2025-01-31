@@ -15,10 +15,10 @@ const data = {
   navMain: [
     { title: "Dashboard", url: "/admin/dashboard" },
     { title: "All Users", url: "/admin/all-users" },
-    { title: "Manage Campaigns", url: "/admin/CampaignsManagement" },
+    { title: "Lost & Found", url: "/admin/LostFound" },
     { title: "Alerts", url: "/admin/Alerts" },
     { title: "Resource Management", url: "/admin/resource-management" },
-    { title: "Verify Doctors", url: "/admin/verify-doctors" },
+    { title: "Verify Clubs", url: "/admin/verify-clubs" },
   ],
 };
 
