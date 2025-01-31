@@ -124,9 +124,9 @@ const AllRequests: React.FC = () => {
                   </div>
 
                   {/* View Details Button */}
-                  <Link href={`/helpSection/${request.id}`} passHref>
+                  <Link href={`/help/${request.id}/chat`} passHref>
                     <Button size="sm" className="bg-blue-500 hover:bg-blue-700">
-                      View
+                      Join Chat
                     </Button>
                   </Link>
                 </div>
