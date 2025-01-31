@@ -1,58 +1,53 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { supabase } from "@/utils/supabase/client";
+
+type Flat = {
+  id: number;
+  title: string | null;
+  description: string | null;
+  location: string | null;
+  ownerNumber: string | null;
+  images: string | null;
+  mapLink: string | null;
+  rent: number | null;
+  userid: string | null;
+};
 
 const FindFlatmates: React.FC = () => {
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [flats, setFlats] = useState<Flat[]>([]);
 
-  // Static data for available flats near the user's college
-  const flats = [
-    {
-      id: 1,
-      imageLink: "/images/flat1.jpg",
-      location: "Bibwewadi, Pune",
-      address: "Flat No. 101, Sunshine Apartments, Bibwewadi, Pune - 411037",
-      rent: "₹8,000/month",
-      deposit: "₹20,000",
-      contact: "+91 98765 43210",
-    },
-    {
-      id: 2,
-      imageLink: "/images/flat2.jpg",
-      location: "Katraj, Pune",
-      address: "A-202, Green Residency, Near Katraj Bus Stand, Pune - 411046",
-      rent: "₹10,000/month",
-      deposit: "₹30,000",
-      contact: "+91 98765 43211",
-    },
-    {
-      id: 3,
-      imageLink: "/images/flat3.jpg",
-      location: "Swargate, Pune",
-      address: "B-15, Skyline Towers, Near Swargate Metro Station, Pune - 411042",
-      rent: "₹12,500/month",
-      deposit: "₹35,000",
-      contact: "+91 98765 43212",
-    },
-    {
-      id: 4,
-      imageLink: "/images/flat4.jpg",
-      location: "Market Yard, Pune",
-      address: "C-305, Orchid Residency, Market Yard, Pune - 411037",
-      rent: "₹15,000/month",
-      deposit: "₹40,000",
-      contact: "+91 98765 43213",
-    },
-  ];
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("flats")
+          .select("*");
+
+        if (error) throw error;
+
+        setFlats(data as Flat[]);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   // Filter flats based on search input
   const filteredFlats = flats.filter((flat) =>
-    flat.location.toLowerCase().includes(search.toLowerCase())
+    flat.location?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -81,8 +76,8 @@ const FindFlatmates: React.FC = () => {
             {/* Flat Image */}
             <div className="w-full h-[200px] overflow-hidden rounded-t-lg">
               <Image
-                src={flat.imageLink || "/images/default-flat.jpg"} // Fallback image
-                alt={flat.location}
+                src={flat.images || "/images/default-flat.jpg"} // Fallback image
+                alt={flat.location || "Flat image"}
                 width={400}
                 height={200}
                 className="object-cover w-full h-full"
@@ -98,21 +93,18 @@ const FindFlatmates: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <p className="text-gray-700 text-sm">
-                <strong>Address:</strong> {flat.address}
+                <strong>Description:</strong> {flat.description}
               </p>
               <p className="text-gray-700 text-sm">
                 <strong>Rent:</strong> {flat.rent}
               </p>
               <p className="text-gray-700 text-sm">
-                <strong>Deposit:</strong> {flat.deposit}
-              </p>
-              <p className="text-gray-700 text-sm">
-                <strong>Contact:</strong> {flat.contact}
+                <strong>Contact:</strong> {flat.ownerNumber}
               </p>
               <div className="flex justify-between items-center mt-4">
                 {/* Contact Now Button */}
-                <Link href={`tel:${flat.contact}`} passHref>
-                  <Button size="sm" className="bg-green-500 hover:bg-green-700">
+                <Link href={`tel:${flat.ownerNumber}`} passHref>
+                  <Button size="sm" className="bg-blue-500 hover:bg-blue-700">
                     Contact Now
                   </Button>
                 </Link>
