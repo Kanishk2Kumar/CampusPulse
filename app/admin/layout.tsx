@@ -31,13 +31,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
         // Fetch the user's profile or role from the `user` table
         const { data: userData, error: userError } = await supabase
-          .from("user") // Use the correct table name
-          .select("userType")
-          .eq("userId", user?.id)
+          .from("users") // Use the correct table name
+          .select("usertype")
+          .eq("userid", user?.id)
           .single();
 
         // Check if the user is an admin
-        if (userData?.userType === "admin") {
+        console.log(userData?.usertype)
+        if (userData?.usertype === "admin") {
           setIsAdmin(true);
         } else {
           // Set alert message for non-admin users

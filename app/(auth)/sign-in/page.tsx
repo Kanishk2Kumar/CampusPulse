@@ -40,12 +40,12 @@ const SignIn = (props: React.ComponentPropsWithoutRef<"div">) => {
 
       const { data: userData, error: userError } = await supabase
         .from("users")
-        .select("userType")
+        .select("usertype")
         .eq("userId", user?.id)
         .single();
 
       setTimeout(() => {
-        if (userData?.userType === "admin") {
+        if (userData?.usertype === "admin") {
           router.push("/admin/dashboard");
         } else {
           router.push("/");

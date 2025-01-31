@@ -4,7 +4,6 @@ import { supabase, supabaseAdminRole } from "@/utils/supabase/client";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -20,10 +19,10 @@ import {
 } from "@/components/ui/card";
 
 type User = {
-  userId: string;
+  userid: string;
   email: string;
-  phoneNumber: string;
-  userName: string;
+  phonenumber: string;
+  name: string;
 };
 
 const AllUsers: React.FC = () => {
@@ -34,9 +33,9 @@ const AllUsers: React.FC = () => {
     const fetchUsers = async () => {
       try {
         const { data, error } = await supabase
-          .from("user")
-          .select("*")
-          .neq("userType", "admin");
+          .from("users")
+          .select("userid, email, phonenumber, name")
+          .neq("usertype", "admin");
 
         if (error) throw error;
 
@@ -51,20 +50,20 @@ const AllUsers: React.FC = () => {
     fetchUsers();
   }, []);
 
-  const handleDeleteUser = async (userId: string) => {
+  const handleDeleteUser = async (userid: string) => {
     try {
       const { error: dbError } = await supabaseAdminRole
-        .from("user")
+        .from("users")
         .delete()
-        .eq("userId", userId);
+        .eq("userid", userid);
 
       if (dbError) throw dbError;
 
-      const { error: authError } = await supabaseAdminRole.auth.admin.deleteUser(userId);
+      const { error: authError } = await supabaseAdminRole.auth.admin.deleteUser(userid);
 
       if (authError) throw authError;
 
-      setUsers((prevUsers) => prevUsers.filter((user) => user.userId !== userId));
+      setUsers((prevUsers) => prevUsers.filter((user) => user.userid !== userid));
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -94,15 +93,15 @@ const AllUsers: React.FC = () => {
             </TableHeader>
             <TableBody>
               {users.map((user, index) => (
-                <TableRow key={user.userId}>
+                <TableRow key={user.userid}>
                   <TableCell>{index + 1}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.phoneNumber}</TableCell>
-                  <TableCell>{user.userName}</TableCell>
+                  <TableCell>{user.phonenumber}</TableCell>
+                  <TableCell>{user.name}</TableCell>
                   <TableCell>
                     <Button
                       variant="destructive"
-                      onClick={() => handleDeleteUser(user.userId)}
+                      onClick={() => handleDeleteUser(user.userid)}
                     >
                       Delete
                     </Button>
