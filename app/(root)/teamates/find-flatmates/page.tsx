@@ -104,7 +104,7 @@ const FindFlatmates: React.FC = () => {
               <div className="flex justify-between items-center mt-4">
                 {/* Contact Now Button */}
                 <Link href={`tel:${flat.ownerNumber}`} passHref>
-                  <Button size="sm" className="bg-green-500 hover:bg-green-700">
+                  <Button size="sm" className="bg-blue-500 hover:bg-blue-700">
                     Contact Now
                   </Button>
                 </Link>
