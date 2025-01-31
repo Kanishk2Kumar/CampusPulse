@@ -33,13 +33,13 @@ export const projects = [
     title: " Seamless Communication",
     description:
       "Engage in real-time discussions with your peers, share ideas, and collaborate on projects.",
-    link: "/predictions",
+    link: "/",
   },
   {
     title: "Help & Earn Rewards",
     description:
       " Stuck on a problem? Ask for help from the Campus Pulse community and get solutions from fellow students.",
-    link: "/self-diagnosis",
+    link: "/help/all-request",
   },
   {
     title: "College Events & Activities",
@@ -51,6 +51,6 @@ export const projects = [
     title: "  Lost & Found",
     description:
       "Misplaced your keys, laptop, or wallet? Report it on Campus Pulse and let the community help you find it.",
-    link: "/lostFound/All-Campaigns",
+    link: "/lostFound/all-request",
   },
 ];

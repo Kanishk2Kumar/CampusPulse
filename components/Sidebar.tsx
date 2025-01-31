@@ -41,9 +41,9 @@ export function AdminSidebar({ ...props }: React.ComponentProps<typeof Sidebar>)
         {/* Logo Section */}
         <div className="flex py-2 pl-4 ">
           <img
-            src="/icons/LogoFull.png"
+            src="/icons/logo.png"
             alt="Logo"
-            className="h-16"
+            className="h-24"
           />
         </div>
 

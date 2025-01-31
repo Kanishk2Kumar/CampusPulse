@@ -12,7 +12,7 @@ const LearnMore: React.FC = () => {
         <h1 className="text-4xl font-bold text-blue-500 mb-4">
           Welcome to Campus Pulse
         </h1>
-        <p className="text-gray-700 text-xl max-w-4xl">
+        <p className="  text-xl max-w-4xl">
           Campus Pulse is a dynamic platform designed to streamline and enhance the college experience. It serves as a hub where students can engage with their peers, collaborate on projects, stay informed about campus events, and build meaningful networks. Whether you're seeking team members for a hackathon, searching for a study group, or exploring exciting college activities, Campus Pulse ensures you stay connected and informed.
         </p>
       </div>
@@ -20,10 +20,10 @@ const LearnMore: React.FC = () => {
       {/* Technologies Section */}
       <div className="mb-12">
         <h2 className="text-3xl font-bold text-blue-500 mb-6">Technologies We Use</h2>
-        <p className="text-gray-700 text-lg max-w-4xl">
+        <p className="  text-lg max-w-4xl">
           Campus Pulse is built using modern, scalable technologies to provide a seamless user experience.
         </p>
-        <ul className="list-disc list-inside text-gray-700 text-lg max-w-4xl mt-4">
+        <ul className="list-disc list-inside   text-lg max-w-4xl mt-4">
           <li>
             <strong>Frontend:</strong> Built with <strong>Next.js</strong> for its performance and server-side rendering capabilities, ensuring fast page loads and a responsive experience. Styled with <strong>Tailwind CSS</strong> to maintain a sleek and consistent design.
           </li>
