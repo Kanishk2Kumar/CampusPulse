@@ -17,6 +17,7 @@ import { supabase } from "@/utils/supabase/client";
 const Profile = () => {
   const { user, userDetails, session } = useAuth();
   const router = useRouter();
+  const [helpedCount, setHelpedCount] = useState(0);
 
   useEffect(() => {
     if (!session) {
@@ -25,6 +26,24 @@ const Profile = () => {
       }, 2000);
     }
   }, [session, router]);
+
+  useEffect(() => {
+    const fetchHelpedCount = async () => {
+      if (!userDetails?.name) return;
+      const { data, error } = await supabase
+        .from("users")
+        .select("helped")
+        .eq("name", userDetails.name)
+        .single();
+
+      if (error) {
+        console.error("Error fetching helped count:", error);
+      } else {
+        setHelpedCount(data?.helped || 0);
+      }
+    };
+    fetchHelpedCount();
+  }, [userDetails?.name]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -51,7 +70,7 @@ const Profile = () => {
               {user.user_metadata?.username?.charAt(0)?.toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <CardTitle className="text-center mt-4 text-green-500">
+          <CardTitle className="text-center mt-4 text-blue-500">
             {userDetails?.name || "User"}
           </CardTitle>
           <CardDescription className="text-center text-sm text-gray-500">
@@ -78,6 +97,10 @@ const Profile = () => {
           <div>
             <h3 className="text-lg font-semibold">Hobbies:</h3>
             <p className="text-gray-700">{userDetails?.hobbies || "None"}</p>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold">Users Helped:</h3>
+            <p className="text-gray-700">{helpedCount}</p>
           </div>
           <div className="space-y-2">
             <Button onClick={handleSignOut} className="w-full">
