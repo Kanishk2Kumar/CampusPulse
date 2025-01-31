@@ -25,10 +25,10 @@ export function EnhancedGridLayout() {
   const router = useRouter();
   const [alertsCount, setAlertsCount] = useState(0);
   const [usersCount, setUsersCount] = useState(0);
-  const [campaignsCount, setCampaignsCount] = useState(0);
-  const [doctorsCount, setDoctorsCount] = useState(0); // New state for doctors count
+  const [lostAndFoundCount, setLostAndFoundCount] = useState(0);
+  const [clubsCount, setClubsCount] = useState(0); // New state for clubs count
 
-  // Fetch counts for alerts, users, campaigns, and doctors
+  // Fetch counts for alerts, users, lost and found requests, and clubs
   useEffect(() => {
     const fetchCounts = async () => {
       try {
@@ -38,20 +38,20 @@ export function EnhancedGridLayout() {
         setAlertsCount(alertsCount || 0);
 
         const { count: usersCount } = await supabase
-          .from("user")
+          .from("users")
           .select("*", { count: "exact", head: true })
           .neq("userType", "admin"); // Exclude admin users
         setUsersCount(usersCount || 0);
 
-        const { count: campaignsCount } = await supabase
-          .from("campaigns")
+        const { count: lostAndFoundCount } = await supabase
+          .from("lostFound")
           .select("*", { count: "exact", head: true });
-        setCampaignsCount(campaignsCount || 0);
+        setLostAndFoundCount(lostAndFoundCount || 0);
 
-        const { count: doctorsCount } = await supabase
-          .from("doctors")
+        const { count: clubsCount } = await supabase
+          .from("clubs")
           .select("*", { count: "exact", head: true });
-        setDoctorsCount(doctorsCount || 0);
+        setClubsCount(clubsCount || 0);
       } catch (error) {
         console.error("Error fetching counts:", error);
       }
@@ -74,10 +74,10 @@ export function EnhancedGridLayout() {
       onClick: () => router.push("/admin/all-users"),
     },
     {
-      title: "Campaigns",
-      description: `Total Campaigns: ${campaignsCount}`,
+      title: "Lost and Found Requests",
+      description: `Total Requests: ${lostAndFoundCount}`,
       icon: <IconSignature className="h-10 w-10 text-neutral-500" />,
-      onClick: () => router.push("/admin/CampaignsManagement"),
+      onClick: () => router.push("/admin/LostAndFoundManagement"),
     },
     {
       title: "Resource Management",
@@ -87,10 +87,10 @@ export function EnhancedGridLayout() {
       onClick: () => router.push("/admin/resource-management"),
     },
     {
-      title: "Doctors",
-      description: `Total Doctors: ${doctorsCount}`,
+      title: "Clubs",
+      description: `Total Clubs: ${clubsCount}`,
       icon: <IconUser className="h-10 w-10 text-neutral-500" />,
-      onClick: () => router.push("/admin/verify-doctors"),
+      onClick: () => router.push("/admin/clubs-management"),
     },
   ];
 
