@@ -10,73 +10,30 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { supabase } from "@/utils/supabase/client";
 import { useAuth } from "@/context/UserContext"; // Assuming you have a UserContext
 
-const CreatePost = () => {
+const CreateEvent = () => {
   const [formData, setFormData] = useState({
     title: "",
-    content: "",
-    location: "",
-    imageLink: "",
+    description: "",
+    clubName: "",
+    startDate: "",
+    endDate: "",
+    imageLink: "", // Added imageLink to form data
   });
 
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null); // State for image file
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string>(""); // Only userId is needed
-  const [userName, setUserName] = useState<string>(""); // Add userName state
-  const [isDoctor, setIsDoctor] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>(""); // userId from the session
 
   const router = useRouter();
   const { userDetails } = useAuth(); // Fetch user details from the context
 
   useEffect(() => {
-    const fetchUserRoleAndName = async () => {
-      if (userDetails) {
-        setUserId(userDetails.userId || ""); // Set userId from the session
-
-        // Check if the user is a doctor by querying the doctors table
-        const { data: doctorData, error: doctorError } = await supabase
-          .from("doctors") // Use the doctors table
-          .select("userId")
-          .eq("userId", userDetails.userId)
-          .single();
-
-        if (doctorError) {
-          console.error("Error fetching doctor details:", doctorError);
-          setIsDoctor(false); // User is not a doctor
-        } else if (doctorData) {
-          setIsDoctor(true); // User is a doctor
-        }
-
-        // Fetch the user's userName from the user table
-        const { data: userData, error: userError } = await supabase
-          .from("user")
-          .select("userName")
-          .eq("userId", userDetails.userId)
-          .single();
-
-        if (userError) {
-          console.error("Error fetching user details:", userError);
-        } else if (userData) {
-          setUserName(userData.userName); // Set userName
-        }
-      }
-    };
-
-    fetchUserRoleAndName();
-  }, [userDetails]);
-
-  useEffect(() => {
-    if (!isDoctor) {
-      // Add a 1.5-second delay before redirecting
-      const redirectTimer = setTimeout(() => {
-        router.push("/clubs/authenticate"); // Redirect non-doctors to the authentication page
-      }, 1500);
-
-      // Cleanup the timer to avoid memory leaks
-      return () => clearTimeout(redirectTimer);
+    if (userDetails) {
+      setUserId(userDetails.userId || ""); // Set userId from the session
     }
-  }, [isDoctor, router]);
+  }, [userDetails]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -98,16 +55,22 @@ const CreatePost = () => {
 
     try {
       // Validate inputs
-      if (!formData.title || !formData.content || !formData.location) {
-        throw new Error("Title, content, and location are required.");
+      if (
+        !formData.title ||
+        !formData.description ||
+        !formData.clubName ||
+        !formData.startDate ||
+        !formData.endDate
+      ) {
+        throw new Error("All fields are required.");
       }
 
       let imageLink = "";
 
-      // Step 1: Upload image to Supabase Storage inside the `post` folder
+      // Step 1: Upload image to Supabase Storage if a file is selected
       if (imageFile) {
         const fileName = `${userId}_${imageFile.name}`.replace(/[^a-zA-Z0-9]/g, "_"); // Use userId for the file name
-        const filePath = `post/${fileName}`; // Specify the folder path
+        const filePath = `event-images/${fileName}`; // Specify the folder path
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from("images") // Bucket name
           .upload(filePath, imageFile);
@@ -122,38 +85,32 @@ const CreatePost = () => {
         imageLink = urlData.publicUrl;
       }
 
-      // Step 2: Insert post details into the database
+      // Step 2: Insert event details into the database
       const { data, error: insertError } = await supabase
-        .from("posts") // Replace with your table name
+        .from("eventManagement") // Replace with your table name
         .insert([
           {
-            userId,
-            userName, // Include the userName in the post
+            userid: userId, // Use userId from the session
             title: formData.title,
-            content: formData.content,
-            location: formData.location,
-            imageLink,
+            description: formData.description,
+            clubName: formData.clubName,
+            startDate: new Date(formData.startDate).toISOString(), // Convert to ISO string
+            EndDate: new Date(formData.endDate).toISOString(), // Convert to ISO string
+            registeredUser: [], // Initially empty, will be filled after registrations
+            imageLink: imageLink, // Include the imageLink
           },
         ]);
 
       if (insertError) throw insertError;
 
-      setSuccessMessage("Your post has been created successfully!");
-      router.push("/doctors/all-post"); // Redirect to home page after success
+      setSuccessMessage("Your event has been created successfully!");
+      router.push("/clubs/all-events"); // Redirect to events page after success
     } catch (error: any) {
       setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
   };
-
-  if (!isDoctor) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-lg">You are not authorized to create posts. Redirecting...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="relative bg-cover bg-center min-h-96 pt-20">
@@ -162,7 +119,7 @@ const CreatePost = () => {
         <Card className="max-w-2xl w-full bg-opacity-90 rounded-lg p-2 shadow-lg">
           <CardHeader>
             <CardTitle className="text-center text-3xl">
-              Create a Post
+              Create an Event
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -173,7 +130,7 @@ const CreatePost = () => {
                   id="title"
                   name="title"
                   type="text"
-                  placeholder="Enter a title for your post"
+                  placeholder="Enter the event title"
                   value={formData.title}
                   onChange={handleInputChange}
                   required
@@ -181,12 +138,12 @@ const CreatePost = () => {
               </div>
 
               <div>
-                <Label htmlFor="content">Content *</Label>
+                <Label htmlFor="description">Description *</Label>
                 <Textarea
-                  id="content"
-                  name="content"
-                  placeholder="Write your post content..."
-                  value={formData.content}
+                  id="description"
+                  name="description"
+                  placeholder="Describe the event..."
+                  value={formData.description}
                   onChange={handleInputChange}
                   rows={4}
                   required
@@ -194,20 +151,44 @@ const CreatePost = () => {
               </div>
 
               <div>
-                <Label htmlFor="location">Location *</Label>
+                <Label htmlFor="clubName">Club Name *</Label>
                 <Input
-                  id="location"
-                  name="location"
+                  id="clubName"
+                  name="clubName"
                   type="text"
-                  placeholder="Enter your location"
-                  value={formData.location}
+                  placeholder="Enter the club name"
+                  value={formData.clubName}
                   onChange={handleInputChange}
                   required
                 />
               </div>
 
               <div>
-                <Label htmlFor="imageLink">Image (Optional)</Label>
+                <Label htmlFor="startDate">Start Date *</Label>
+                <Input
+                  id="startDate"
+                  name="startDate"
+                  type="datetime-local"
+                  value={formData.startDate}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="endDate">End Date *</Label>
+                <Input
+                  id="endDate"
+                  name="endDate"
+                  type="datetime-local"
+                  value={formData.endDate}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="imageLink">Event Image (Optional)</Label>
                 <Input
                   id="imageLink"
                   name="imageLink"
@@ -230,7 +211,7 @@ const CreatePost = () => {
                   className="bg-blue-500 text-white px-6 py-3"
                   disabled={loading}
                 >
-                  {loading ? "Submitting..." : "Create Post"}
+                  {loading ? "Submitting..." : "Create Event"}
                 </Button>
               </div>
             </form>
@@ -241,4 +222,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default CreateEvent;

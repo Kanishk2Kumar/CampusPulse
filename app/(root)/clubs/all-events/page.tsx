@@ -19,7 +19,7 @@ const AllEvents: React.FC = () => {
     const fetchEvents = async () => {
       try {
         const { data, error } = await supabase
-          .from("clubs") // Replace with your table name
+          .from("eventManagement") // Replace with your table name
           .select("*")
           .order("startDate", { ascending: true }); // Sort by start date
 
@@ -85,7 +85,7 @@ const AllEvents: React.FC = () => {
       </div>
 
       {/* Events Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredEvents.map((event) => (
           <Card
             key={event.id}
@@ -116,19 +116,14 @@ const AllEvents: React.FC = () => {
               <p className="text-gray-700 text-sm mt-2">
                 <strong>Club:</strong> {event.clubName}
               </p>
-              <p className="text-gray-700 text-sm">
-                <strong>Start Date:</strong>{" "}
-                {new Date(event.startDate).toLocaleDateString()}
-              </p>
-              <p className="text-gray-700 text-sm">
-                <strong>End Date:</strong>{" "}
-                {new Date(event.endDate).toLocaleDateString()}
+              <p className="text-gray-700 text-sm mt-2">
+                <strong>Date:</strong> {event.startDate} to {event.EndDate}
               </p>
               <div className="flex justify-between items-center mt-4">
-                {/* RSVP Button */}
-                <Link href={`/events/${event.id}/rsvp`} passHref>
-                  <Button size="sm" className="bg-green-500 hover:bg-green-700">
-                    RSVP
+                {/* View Event Button */}
+                <Link href={`/clubs/${event.id}/register`} passHref>
+                  <Button size="sm" className="bg-blue-500 hover:bg-blue-700">
+                    Register
                   </Button>
                 </Link>
               </div>
