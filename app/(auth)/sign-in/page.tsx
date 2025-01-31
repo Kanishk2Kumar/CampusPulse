@@ -66,7 +66,7 @@ const SignIn = (props: React.ComponentPropsWithoutRef<"div">) => {
       <div className="w-full max-w-sm">
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl text-green-500">Login</CardTitle>
+            <CardTitle className="text-2xl text-blue-500">Login</CardTitle>
             <CardDescription>
               Enter your email below to login to your account
             </CardDescription>
@@ -97,7 +97,7 @@ const SignIn = (props: React.ComponentPropsWithoutRef<"div">) => {
                 </div>
                 <Button
                   type="submit"
-                  className="w-full bg-green-500 hover:bg-green-700"
+                  className="w-full bg-blue-500 hover:bg-blue-700"
                   disabled={loading}
                 >
                   {loading ? "Logging in..." : "Login"}
