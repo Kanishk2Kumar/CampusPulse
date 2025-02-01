@@ -80,6 +80,9 @@ const Header = () => {
               <li className="hover:underline mt-2">
                 <Link href="/help/all-request">Open Requests</Link>
               </li>
+              <li className="hover:underline mt-2">
+                <Link href="/leaderboard">LeaderBoards </Link>
+              </li>
             </ul>
           </li>
           <li className="relative group">
