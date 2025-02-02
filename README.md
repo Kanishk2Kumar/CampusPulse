@@ -1,36 +1,63 @@
-New version of Swasta Setu with backend integrated in it
+# 🚀 Campus Pulse
 
-## Getting Started
+### 🏆 Winning Project at Nirmaan Hackathon - I2IC VIIT Pune
 
-First, run the development server:
+## 🎉 About the Project
+**Campus Pulse** is a web and mobile application designed to enhance campus life by seamlessly connecting students, alumni, faculty, and staff. Developed by **Team Optimus** during the **Nirmaan Hackathon**, this platform aims to address common challenges faced in university ecosystems.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠 Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔹 Expert Help & Mentorship
+- Connect with students, seniors, professors, and experienced peers.
+- Inbuilt chat functionality for both private and open discussions.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🔹 Hackathon & Project Collaboration
+- Find teammates for competitions and projects based on skillsets.
+- Intelligent matchmaking based on interests and experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🔹 Flatmate & Roommate Finder
+- Match with compatible roommates based on preferences, hobbies, and habits.
+- Personalized filters for location, budget, and lifestyle.
 
-## Learn More
+### 🔹 Lost & Found Management
+- Report and recover lost items efficiently.
+- Automated alerts notify students when their lost items are found.
 
-To learn more about Next.js, take a look at the following resources:
+### 🔹 Event Management with Authorization
+- Secure and centralized platform for event discovery and management.
+- Role-based authorization ensures credibility.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🔹 Admin Panel & Security
+- **2-Level Admin Panel** for effective management.
+- **Rate-limiting with Upstash** for security, scalability, and production readiness.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🏗 Tech Stack
+- **Frontend:** React.js, React Native
+- **Backend:** Node.js, Firebase
+- **Database:** Firestore
+- **AI/ML:** Used for matchmaking
 
-## Deploy on Vercel
+## 🔗 Links
+- 🌍 **Website GitHub**: [CampusPulse Web](https://github.com/Kanishk2Kumar/CampusPulse)
+- 📱 **App GitHub**: [CampusPulse App](https://github.com/Kanishk2Kumar/CampusPulse)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔥 Impact & Feasibility
+### 📈 Impact
+- **Enhanced Collaboration & Learning** – Connects students with experts and fosters knowledge sharing.
+- **Stronger Campus Community** – Helps students find teammates and like-minded individuals.
+- **Improved Campus Life & Convenience** – Simplifies roommate searches and lost-and-found reporting.
+- **Efficient Event Management** – Role-based authorization ensures proper event management.
+- **Safety & Trust** – Verified profiles and authentication for a secure ecosystem.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more detail.
+### 🏗 Feasibility
+- **Technical Feasibility** – Built with modern frameworks and AI/ML for matchmaking.
+- **Operational Feasibility** – Easy adoption across universities.
+- **Financial Feasibility** – Revenue from premium features, ads, sponsorships, and grants.
+- **Scalability** – Starts with one university and expands with a modular, upgradeable design.
+
+## 👥 Team Optimus
+- **Kanishk Kumar** (Leader)
+- **Vyankatesh Jadhav**
+- **Sarvad Dandge**
+- **Shardul Dhanokar**
+
