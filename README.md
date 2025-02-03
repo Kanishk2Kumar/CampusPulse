@@ -39,7 +39,7 @@
 
 ## 🔗 Links
 - 🌍 **Website GitHub**: [CampusPulse Web](https://github.com/Kanishk2Kumar/CampusPulse)
-- 📱 **App GitHub**: [CampusPulse App](https://github.com/Kanishk2Kumar/CampusPulse)
+- 📱 **App GitHub**: [CampusPulse App](https://github.com/sarvadandge29/campusPluseApp)
 
 ## 🔥 Impact & Feasibility
 ### 📈 Impact
